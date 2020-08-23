@@ -10,13 +10,13 @@ class PlacesAPITests(APITestCase):
         first_user = {'username': 'FirstName', 'password': 'FirstPassword'}
         second_user = {'username': 'SecondTestName', 'password': 'SecondPassword'}
         response = self.client.post(url, first_user, format='json')
-        self.token = response.data['user']['token']
+        self.token = response.data['token']
         response = self.client.post(url, second_user, format='json')
-        self.token_two = response.data['user']['token']
+        self.token_two = response.data['token']
 
-        self.data_place = {'title': 'Horns and hooves', 'opening_time': '09:00',
-                           'address': 'Москва Красная площадь', 'closing_time': '21:00'}
-        self.data_ingredient = {'title': 'Cookies', 'calories': '100'}
+        self.data_place = {'name': 'Horns and hooves', 'from_hour': '09:00',
+                           'address': 'Москва Красная площадь', 'to_hour': '21:00'}
+        self.data_ingredient = {'name': 'Cookies', 'calories': '100'}
         self.url_ingredient_pk = '/api/ingredients/1/'
 
         self.url_place = reverse('places-list')
@@ -30,7 +30,7 @@ class PlacesAPITests(APITestCase):
         self.url_place_pk = f'/api/places/{pk_place}/'
 
         # the owner creates a new dish
-        self.data_dish = {'title': 'Ordinary cookies', 'price': 100, 'ingredients': [1], 'place': pk_place}
+        self.data_dish = {'name': 'Ordinary cookies', 'price': 100, 'ingredients': [1], 'place': pk_place}
         response = self.client.post(self.url_dish, self.data_dish, format='json')
         pk_dish = response.data['id']
         self.url_dish_pk = f'/api/dishes/{pk_dish}/'

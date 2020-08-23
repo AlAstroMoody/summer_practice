@@ -13,7 +13,7 @@ class UserAPITests(APITestCase):
         """
         url = reverse('users-list')
         response = self.client.post(url, self.data, format='json')
-        user_token = response.data['user']['token']
+        user_token = response.data['token']
         self.assertTrue(user_token)
 
     def test_token_return_on_request_to_auth(self):
