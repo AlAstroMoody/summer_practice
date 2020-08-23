@@ -22,7 +22,7 @@ def shell():
 
 
 def dev():
-    local("sudo docker-compose run --rm --service-ports server")
+    local("docker-compose run --rm --service-ports server")
 
 
 def kill():

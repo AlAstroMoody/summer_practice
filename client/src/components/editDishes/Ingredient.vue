@@ -5,9 +5,7 @@
       <el-main class="list-elements__table">
         <div v-for="ingredient in ingredients" :key="ingredient">
           <el-link @click="removeIngredient(ingredient)">
-            <i v-if="allIngredients[ingredient - 1]">
-              {{ allIngredients[ingredient - 1].name }}
-            </i>
+            {{ showIngredientName(ingredient) }}
           </el-link>
         </div>
       </el-main>
@@ -55,6 +53,13 @@ export default {
     },
     showModal() {
       this.$emit("showModal");
+    },
+    showIngredientName(id) {
+      for (let ingredient of this.allIngredients) {
+        if (ingredient.id === id) {
+          return ingredient.name;
+        }
+      }
     }
   }
 };

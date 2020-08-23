@@ -22,8 +22,8 @@
         />
         <Ingredient
           class="edit-dish__element"
-          :allIngredients="this.ingredients"
           :ingredients="this.dish.ingredients"
+          :allIngredients="this.ingredients"
           @getIngredients="getIngredients"
           @showModal="showModal"
         />
