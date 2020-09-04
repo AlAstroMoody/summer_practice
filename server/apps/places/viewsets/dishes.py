@@ -1,4 +1,3 @@
-from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from url_filter.integrations.drf import DjangoFilterBackend
 
@@ -12,4 +11,5 @@ class DishViewSet(ModelViewSet):
     serializer_class = DishSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('place', 'ingredients',)
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerPlaceWithDishOrReadOnly,)
+    permission_classes = (IsOwnerPlaceWithDishOrReadOnly,)
+
