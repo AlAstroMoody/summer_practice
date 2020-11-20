@@ -27,7 +27,7 @@ export default {
       },
       set(name) {
         this.name = name;
-        this.$emit("getIngredientName", name);
+        this.createNew();
       }
     },
     getCalories: {
@@ -36,8 +36,13 @@ export default {
       },
       set(calories) {
         this.calories = calories;
-        this.$emit("getCalories", calories);
+        this.createNew();
       }
+    }
+  },
+  methods: {
+    createNew() {
+      this.$emit("newIngredient", [this.name, this.calories]);
     }
   }
 };

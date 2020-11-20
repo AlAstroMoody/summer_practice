@@ -3,16 +3,17 @@
     <div class="modal__body">
       <div class="modal__header">
         <span>{{ modalTitle }}</span>
-        <span @click="close">&#10006;</span>
+        <el-link @click="close">&#10006;</el-link>
       </div>
       <div class="modal-content">
-        <slot></slot>
+        <slot />
       </div>
       <div class="modal__footer">
-        <el-button type="success" @click="leftButtonAction">
+        <el-button type="success" @click="leftButtonAction" class="modal__button">
           {{ leftButtonTitle }}
         </el-button>
         <el-button
+          class="modal__button"
           v-if="rightButtonTitle !== ''"
           type="primary"
           @click="rightButtonAction"
@@ -26,7 +27,7 @@
 
 <script>
 export default {
-  name: "Modal",
+  name: "ModalBlank",
   props: {
     modalTitle: {
       type: String,
@@ -70,18 +71,23 @@ export default {
 .modal__body {
   display: flex;
   flex-direction: column;
-  top: 10%;
   box-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
-  position: fixed;
+  margin: auto;
   width: 30%;
+  min-height: 100px;
   min-width: 300px;
+  max-width: 500px;
   z-index: 10;
+  border-radius: 20px;
+  overflow: hidden;
+  position: absolute;
+  top: 5%;
 }
 
 .modal__header {
   display: flex;
   justify-content: space-between;
-  background-color: orange;
+  background: orange;
   text-align: left;
   padding: 8px 12px;
   font-size: 1.5em;
@@ -100,5 +106,13 @@ export default {
   align-items: center;
   min-height: 20%;
   background-color: #eee;
+}
+.modal__button {
+  max-width: 200px;
+  margin: 5px auto;
+}
+.el-button {
+  line-height: 1;
+  white-space: initial;
 }
 </style>

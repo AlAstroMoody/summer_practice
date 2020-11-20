@@ -6,21 +6,21 @@
     <router-link
       :to="{ name: 'Places' }"
       class="navbar__items"
-      v-if="this.login"
+      v-if="statusAuth"
     >
       Мои заведения
     </router-link>
     <div class="navbar__profile">
-      <p class="navbar__login" v-if="this.login">
-        Вы вошли как {{ this.login }}
+      <p class="navbar__login" v-if="statusAuth">
+        Вы вошли как {{ login }}
       </p>
-      <el-link @click="logOut" class="navbar__exit" v-if="this.login">
+      <el-button type="text" @click="logOut" class="navbar__exit" v-if="statusAuth">
         Выйти
-      </el-link>
+      </el-button>
       <router-link
         :to="{ name: 'Auth' }"
         class="navbar__items"
-        v-if="!this.login"
+        v-if="!statusAuth"
       >
         Войти как владелец заведения
       </router-link>
@@ -29,17 +29,19 @@
 </template>
 
 <script>
+
+
+import {mapGetters} from "vuex";
+
 export default {
   name: "Navbar",
   computed: {
-    login() {
-      return this.$store.state.token.user.username;
-    }
+    ...mapGetters("auth", { login: "username", statusAuth: "statusAuth" }),
   },
   methods: {
-    async logOut() {
-      await this.$store.dispatch("logout");
-      await this.$router.push({ name: "Auth" });
+    logOut() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push({ name: "Auth" });
     }
   }
 };
@@ -62,8 +64,30 @@ export default {
   margin-left: auto;
   align-items: center;
 }
+
 .navbar__exit {
   margin: 3%;
   padding: 2%;
+}
+.navbar__items {
+  text-decoration: none;
+  position: relative;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.navbar__items:after {
+  display: block;
+  position: absolute;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: black;
+  content: "";
+  transition: width 0.3s ease-out;
+}
+
+.navbar__items:hover:after,
+.navbar__items:focus:after {
+  width: 100%;
 }
 </style>

@@ -8,6 +8,5 @@ export const authUser = async params => {
 
 export const registerUser = async params => {
   let response = await instance.post("users/", params);
-  localStorage.setItem("token", response.data.token);
-  return response.data;
+  return response;
 };

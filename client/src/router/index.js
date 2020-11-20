@@ -1,12 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Places from "../views/Places.vue";
-import EditPlace from "../views/EditPlace.vue";
-import EditDish from "../views/EditDish.vue";
+import Places from "../views/OwnerPlaces.vue";
+import EditPlace from "../views/PlaceEdit.vue";
+import EditDish from "../views/DishEdit.vue";
 import Auth from "../views/Auth.vue";
 import Register from "../views/Register.vue";
-import Place from "../views/Place.vue";
+import PlaceInfo from "@/views/PlaceInfo";
 
 Vue.use(VueRouter);
 const ifNotAuthenticated = (to, from, next) => {
@@ -38,13 +38,13 @@ const routes = [
   },
   {
     path: "/owner/places/:id/",
-    name: "EditPlace",
+    name: "PlaceEdit",
     component: EditPlace,
     beforeEnter: ifAuthenticated
   },
   {
     path: "/owner/places/:id/dish/:uid/",
-    name: "EditDish",
+    name: "DishEdit",
     component: EditDish,
     beforeEnter: ifAuthenticated
   },
@@ -62,8 +62,8 @@ const routes = [
   },
   {
     path: "/place/:id",
-    name: "Place",
-    component: Place
+    name: "PlaceInfo",
+    component: PlaceInfo
   }
 ];
 

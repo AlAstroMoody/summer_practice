@@ -8,12 +8,12 @@
           :key="place.id"
           class="places-list__elements"
         >
-          <router-link :to="{ name: 'EditPlace', params: { id: place.id } }"
+          <router-link :to="{ name: 'PlaceEdit', params: { id: place.id } }"
             >{{ place.name }}
           </router-link>
         </div>
       </el-card>
-      <router-link :to="{ name: 'EditPlace', params: { id: 'new' } }">
+      <router-link :to="{ name: 'PlaceEdit', params: { id: 'new' } }">
         <el-button class="places-list__button">
           Добавить заведение
         </el-button>
@@ -23,19 +23,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapGetters} from "vuex";
+
 export default {
-  name: "Places",
+  name: "OwnerPlaces",
   computed: {
     places() {
-      return this.$store.state.places;
-    }
-  },
-  methods: {
-    ...mapActions(["getMyPlaces"])
-  },
-  async created() {
-    await this.getMyPlaces(this.$store.state.token.user.pk);
+      return this.placesAll.filter(r => r.owner === this.pk)
+    },
+    ...mapGetters("places", { placesAll: "all" }),
+    ...mapGetters("auth", { pk: "pk" }),
   }
 };
 </script>
@@ -60,8 +57,8 @@ export default {
   text-align: left;
 }
 .places-list__card {
-  margin-left: 2%;
+  margin: 2%;
   width: 25%;
-  min-width: 200px;
+  min-width: 300px;
 }
 </style>

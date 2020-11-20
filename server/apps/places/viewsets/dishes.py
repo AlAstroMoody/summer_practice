@@ -11,5 +11,5 @@ class DishViewSet(ModelViewSet):
     serializer_class = DishSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('place', 'ingredients',)
-    permission_classes = (IsOwnerPlaceWithDishOrReadOnly,)
+#     permission_classes = (IsOwnerPlaceWithDishOrReadOnly,)
 

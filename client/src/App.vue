@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view />
+    <transition name="views" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -19,5 +21,15 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
+}
+
+.views-enter-active,
+.views-leave-active {
+  transition: opacity 0.2s;
+}
+
+.views-enter,
+.views-leave-to {
+  opacity: 0;
 }
 </style>

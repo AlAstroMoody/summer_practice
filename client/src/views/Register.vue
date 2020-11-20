@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { validate } from "../components/validate";
-import { mapActions } from "vuex";
+import { validate } from "@/components/utils/validate";
+import {mapGetters} from "vuex";
 
 export default {
   name: "Register",
@@ -37,17 +37,20 @@ export default {
       passwordRepeat: ""
     };
   },
+  computed: {
+    ...mapGetters("auth", { statusAuth: "statusAuth" }),
+    ...mapGetters("auth", { error: "error" })
+  },
   methods: {
-    ...mapActions(["registerNewUser"]),
     async signIn() {
       const data = validate(this.login, this.password, this.passwordRepeat);
       if (data[0]) {
-        await this.$store.dispatch("registerNewUser", data[1]);
-        if (this.$store.state.statusAuth) {
+        await this.$store.dispatch("auth/registerNewUser", data[1]);
+        if (this.statusAuth) {
           await this.$router.push({ name: "Places" });
         } else
           this.$message.error(
-            "Ошибка при регистрации! Вероятно логин уже занят"
+            `Ошибка при регистрации! Вероятно логин уже занят`
           );
       } else this.$message.error(data[1]);
     }

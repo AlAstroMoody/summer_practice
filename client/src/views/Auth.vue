@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { validate } from "../components/validate";
+import {mapGetters} from "vuex";
+import { validate } from "@/components/utils/validate";
 export default {
   name: "Auth",
   data() {
@@ -30,24 +30,18 @@ export default {
     };
   },
   computed: {
-    user() {
-      return this.$store.state.token;
-    },
-    status() {
-      return this.$store.state.statusAuth;
-    }
+    ...mapGetters("auth", { statusAuth: "statusAuth" })
   },
   methods: {
-    ...mapActions(["auth"]),
     async signIn() {
       const data = validate(this.login, this.password, this.password);
       if (data[0]) {
         try {
-          await this.$store.dispatch("auth", data[1]);
+          await this.$store.dispatch("auth/auth", data[1]);
         } catch (e) {
           this.$message.error("Неверный логин/пароль");
         }
-        if (this.status) {
+        if (this.statusAuth) {
           await this.$router.push({ name: "Places" });
         }
       } else this.$message.error(data[1]);

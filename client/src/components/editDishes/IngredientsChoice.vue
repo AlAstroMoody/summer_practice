@@ -1,30 +1,23 @@
 <template>
   <el-container class="choice">
-    <el-container>
-      <el-main>
-        <div v-for="ingredient in ingredients" :key="ingredient.id">
-          <label>
-            <input
-              v-model="selectedElements"
-              :value="ingredient.id"
-              type="checkbox"
-            />
-            {{ ingredient.name }}
-          </label>
-        </div>
-      </el-main>
-    </el-container>
+    <el-main>
+      <div v-for="ingredient in ingredients" :key="ingredient.id">
+        <label>
+          <input
+            v-model="selectedElements"
+            :value="ingredient.id"
+            type="checkbox"
+          />
+          {{ ingredient.name }}
+        </label>
+      </div>
+    </el-main>
   </el-container>
 </template>
 
 <script>
 export default {
   name: "IngredientsChoice",
-  data() {
-    return {
-      data: this.ingredientsInDish
-    };
-  },
   props: {
     ingredients: {
       type: Array,
@@ -38,11 +31,10 @@ export default {
   computed: {
     selectedElements: {
       get() {
-        return this.data;
+        return this.ingredientsInDish;
       },
-      set(data) {
-        this.data = data;
-        this.$emit("newIngredients", this.data);
+      set(list) {
+        this.$emit("newIngredients", list);
       }
     }
   }

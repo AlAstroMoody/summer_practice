@@ -1,11 +1,11 @@
 <template>
-  <div class="place-card">
-    <el-card class="place-card__card">
-      <el-container class="place-card__info">
-        <div class="place-card__description">
+  <div class="place-cards">
+    <el-card class="place-cards__card" :body-style="{ padding: '10px' }">
+      <el-container class="place-cards__info">
+        <div class="place-cards__description">
           <router-link
-            :to="{ name: 'Place', params: { id: place.id } }"
-            class="place-card__link"
+            :to="{ name: 'PlaceInfo', params: { id: place.id } }"
+            class="place-cards__link"
           >
             <h3>{{ place.name }}</h3>
           </router-link>
@@ -13,14 +13,13 @@
             {{ isOpen ? "Открыто" : "Закрыто" }}
             {{ place.from_hour }} - {{ place.to_hour }}
           </p>
-          <p>Средний чек: {{ place.average_price.toFixed() }}₽</p>
-          <p>{{ place.address }}</p>
+          <p><i class="el-icon-s-finance"/> Средний чек: {{ place.average_price.toFixed() }}₽</p>
+          <p> <i class="el-icon-location" /> {{ place.address }}</p>
           <br />
-          <p>{{ distance.toFixed(2) }} км от вас</p>
+          <p><i class="el-icon-guide" />  {{ distance.toFixed(2) }} км от вас</p>
         </div>
-        <div class="place-card__image">
-          <el-image :src="place.image" :preview-src-list="[place.image]">
-          </el-image>
+        <div class="place-cards__image">
+          <el-image :src="place.image" :preview-src-list="[place.image]"/>
         </div>
       </el-container>
     </el-card>
@@ -28,7 +27,8 @@
 </template>
 
 <script>
-import { distanceFromPlace } from "./distanceFromPlace";
+import { distanceFromPlace } from "./utils/distanceFromPlace";
+import {mapGetters} from "vuex";
 
 export default {
   name: "PlaceCard",
@@ -45,12 +45,7 @@ export default {
     };
   },
   computed: {
-    latitude() {
-      return this.$store.state.coordinate.latitude;
-    },
-    longitude() {
-      return this.$store.state.coordinate.longitude;
-    },
+    ...mapGetters("coords", {latitude: "latitude", longitude: "longitude"}),
     isOpen() {
       return (
         this.place.from_hour < this.timeNow && this.timeNow < this.place.to_hour
@@ -59,9 +54,7 @@ export default {
     distance() {
       return distanceFromPlace(
         this.place.latitude_deg,
-        this.place.longitude_deg,
-        this.latitude,
-        this.longitude
+        this.place.longitude_deg
       );
     }
   }
@@ -69,45 +62,69 @@ export default {
 </script>
 
 <style scoped>
-.place-card {
+.place-cards {
   display: flex;
   flex-direction: column;
   text-align: left;
-  margin: 1%;
+  min-width: 300px;
 }
-.place-card__card {
+.place-cards__card {
   display: flex;
   flex-direction: column;
   margin-bottom: 1%;
+
 }
-.place-card__info {
+.place-cards__info {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
 }
-.place-card__description {
+.place-cards__description {
   position: relative;
   border: 1px solid black;
   background: #eeeeee;
   padding: 2%;
-  min-width: 40%;
+  width: 40%;
+  min-width: 280px;
+  margin: auto;
+  height: 250px;
 }
-.place-card__image {
+.place-cards__image {
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
-  max-width: 50%;
-  min-width: 150px;
+  width: 50%;
+  min-width: 300px;
   max-height: 300px;
   padding: 1%;
+  margin: auto;
+  overflow: hidden;
 }
-.place-card__link::before {
+.place-cards__link::before {
   content: "";
   position: absolute;
   width: 90%;
   height: 90%;
+}
+h3 {
+  text-align: center;
+}
+.el-image {
+  width: 100%;
+}
+@media screen and (max-width: 750px) {
+  .place-cards__description {
+    width: 80%;
+    margin-bottom: 2%;
+  }
+  .place-cards__image {
+    width: 84%;
+  }
+  .el-card__body {
+    padding: 10px !important;
+  }
 }
 </style>

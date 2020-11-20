@@ -1,18 +1,18 @@
 <template>
-  <el-main class="dishes-in-place">
+  <el-main class="box">
     <el-card
-      v-for="dish in dishes"
-      :key="dish.id"
-      class="dishes-in-place__body"
+        v-for="dish in dishes"
+        :key="dish.id"
+        class="box__body"
     >
-      <div class="dishes-in-place__card">
-        <div class="dishes-in-place__card-with-image">
+      <div class="box__card">
+        <div class="box__card-header">
           <h4>{{ dish.name }}</h4>
-          <img :src="dish.photo" class="dishes-in-place__image" />
+          <el-image :src="dish.photo" :preview-src-list="[dish.photo]" class="box__card-image" alt="img"/>
         </div>
-        <div>
-          <p>Калорийность: {{ dish.calories }}</p>
-          <p>Цена: {{ dish.price }}₽</p>
+        <div class="box__card-footer">
+          <span><i class="el-icon-odometer"/> Калорийность: {{ dish.total_calories }}</span>
+          <span> <i class="el-icon-s-finance"/> Цена: {{ dish.price }}₽</span>
         </div>
       </div>
     </el-card>
@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style scoped>
-.dishes-in-place {
+.box {
   min-width: 140px;
   padding: 2%;
   max-height: 500px;
@@ -42,19 +42,35 @@ export default {
   justify-content: center;
   margin: 1%;
 }
-.dishes-in-place__body {
+
+.box__body {
   margin: 1%;
 }
-.dishes-in-place__card {
+
+.box__card {
   display: flex;
   flex-direction: column;
   text-align: left;
+  height: 300px;
+  width: 200px;
 }
-.dishes-in-place__card-with-image {
-  height: 250px;
+
+.box__card-header {
+  height: 200px;
+  margin: auto;
+  text-align: center;
 }
-.dishes-in-place__image {
+
+.box__card-image {
   max-width: 200px;
-  max-height: 200px;
+  max-height: 150px;
+}
+
+.box__card-footer {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: flex-end;
+  margin: auto;
 }
 </style>

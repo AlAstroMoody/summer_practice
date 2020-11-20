@@ -12,7 +12,7 @@ from config.settings import CACHE_TTL, GEOCODER_KEY
 class PlaceViewSet(ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
     @method_decorator(cache_page(CACHE_TTL))
     def dispatch(self, request, *args, **kwargs):

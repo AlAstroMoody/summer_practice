@@ -2,11 +2,11 @@ import instance from "../getInstanceWithBaseUrl";
 
 export const getOurDishes = async id => {
   let response = await instance.get(`dishes/?format=json&place=${id}`);
-  return response.data["results"];
+  return response.data.results;
 };
 
 export const getDish = async id => {
-  let response = await instance.get(`dishes/${id}/`);
+  let response = await instance.get(`dishes/${id}`);
   return response.data;
 };
 
@@ -16,7 +16,7 @@ export const addNewDish = async params => {
 };
 
 export const removeThisDish = async id => {
-  let response = await instance.delete(`dishes/${id}/`);
+  let response = await instance.delete(`dishes/${id}`);
   return response.data;
 };
 

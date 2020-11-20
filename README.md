@@ -1,8 +1,9 @@
-## Web-app for finding catering establishments
-implemented on Django and Vue
+Приложение для поиска заведений общепита.  
+Создано на летней практике, логика частично переписана позже.   
+Поработать с фильтрами, стилями и правами доступа.
 
 ### Getting started:
-* `git clone https://github.com/AlAstroMoody/summer_practise.git`
+* `git clone https://github.com/AlAstroMoody/summer_practice.git`
 
 * add file `.env` to base directory,    
 add a line with the key to this file:  
@@ -25,10 +26,6 @@ without the key you will not be able to edit the places
 * `docker-compose -f docker-compose.prod.yml build` 
 * `docker-compose -f docker-compose.prod.yml up` 
 
-replace the baseURL from
- http://127.0.0.1:8000/api/ 
- to http://localhost/api/
- in client/src/api/getInstanceWithBaseUrl.js
 
 ### RUN TESTS:
 `fab test`

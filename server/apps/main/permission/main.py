@@ -14,11 +14,11 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 class IsOwnerPlaceWithDishOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
-        place = Place.objects.get(pk=request.data['place'])
-        return bool(
-            request.method in permissions.SAFE_METHODS or
-            request.user and
-            request.user.is_authenticated and
-            place.owner == request.user
-        )
+        if request.method not in permissions.SAFE_METHODS:
+            place = Place.objects.get(pk=request.data.get('place'))
+            if place:
+                print(place)
+                return request.user and request.user.is_authenticated and place.owner == request.user
+        return True
+
 

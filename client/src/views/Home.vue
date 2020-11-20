@@ -1,25 +1,27 @@
 <template>
   <div class="home">
-    <Filters
+    <places-filters
       :places="places"
       :filtered="filteredArray"
       @filteredPlaces="filteredPlaces"
+      class="home__filters"
     />
     <div class="home__cards">
-      <PlaceCard
+      <place-card
         :place="place"
         v-for="place in filteredArray"
         :key="place.id"
       />
     </div>
+    <el-backtop />
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import PlaceCard from "../components/PlaceCard";
-import Filters from "../components/Filters";
-import { distanceFromPlace } from "../components/distanceFromPlace";
+import {mapActions, mapGetters} from "vuex";
+import PlaceCard from "@/components/PlaceCard";
+import PlacesFilters from "@/components/PlacesFilters";
+
 
 export default {
   name: "Home",
@@ -29,19 +31,12 @@ export default {
     };
   },
   components: {
-    PlaceCard,
-    Filters
+    PlacesFilters,
+    PlaceCard
   },
   computed: {
-    places() {
-      return this.$store.state.places;
-    },
-    latitude() {
-      return this.$store.state.coordinate.latitude;
-    },
-    longitude() {
-      return this.$store.state.coordinate.longitude;
-    },
+    ...mapGetters("places", { places: "all" }),
+    ...mapGetters("coords", { latitude: "latitude", longitude: "longitude" }),
     filteredArray() {
       if (this.filtered.length > 0) {
         return this.filtered;
@@ -49,43 +44,24 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getListPlaces", "findCoordinates"]),
-    getCoordPosition() {
+    ...mapActions("places", { setPlaces: "setPlaces", sortPlaces: "setSortedPlaces" }),
+    ...mapActions("coords", { findCoordinates: "findCoordinates" }),
+    getCoordsPosition() {
       navigator.geolocation.getCurrentPosition(position => {
-        this.$store.dispatch("findCoordinates", {
+        this.$store.dispatch("coords/findCoordinates", {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         });
       });
     },
-    sortedPlaces() {
-      for (let place of this.places) {
-        place.distance = distanceFromPlace(
-          place.latitude_deg,
-          place.longitude_deg,
-          this.latitude,
-          this.longitude
-        );
-      }
-      function compare(a, b) {
-        if (Number(a.distance) < Number(b.distance)) {
-          return -1;
-        }
-        if (Number(a.distance) > Number(b.distance)) {
-          return 1;
-        }
-        return 0;
-      }
-      return this.places.sort(compare);
-    },
     filteredPlaces(filtered) {
       this.filtered = filtered;
     }
   },
-  async created() {
-    await this.getListPlaces();
-    await this.getCoordPosition();
-    await this.sortedPlaces();
+  created() {
+    this.setPlaces();
+    this.getCoordsPosition();
+    this.sortPlaces();
   }
 };
 </script>
@@ -95,8 +71,38 @@ export default {
   justify-content: space-around;
   flex-wrap: wrap;
 }
+.home__filters {
+  position: sticky;
+  top: 20px;
+  height: 210px;
+  width: 35%;
+  min-width: 700px;
+  margin-bottom: 40px;
+}
+
 .home__cards {
-  min-width: 300px;
+  min-width: 700px;
   width: 60%;
+  margin: auto;
+}
+.el-backtop {
+  left: 5%;
+  right: 0;
+  background: lightgrey;
+}
+@media screen and (max-width: 1842px) {
+  .home__filters {
+    position: relative;
+  }
+}
+@media screen and (max-width: 750px) {
+  .home__cards {
+    width: 80%;
+    min-width: 320px;
+  }
+  .home__filters {
+    width: 80%;
+    min-width: 320px;
+  }
 }
 </style>
