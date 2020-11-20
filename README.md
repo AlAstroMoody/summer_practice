@@ -35,3 +35,6 @@ without the key you will not be able to edit the places
 
 #### Immediate task:
 - search for other errors 
+
+![главная страница](client/src/assets/screenshots/home.png)​
+![изменение блюда](client/src/assets/screenshots/dish.png)​
