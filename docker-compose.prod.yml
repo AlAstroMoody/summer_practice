@@ -20,7 +20,6 @@ services:
         depends_on:
             - db
             - redis
-            - -client
         environment:
             DEBUG: 'False'
             DATABASE_URL: 'postgres://postgres:@db:5432/postgres'
@@ -41,12 +40,4 @@ services:
             - ./data:/data
         ports:
             - "6379:6379"
-    client:
-        build:
-            context: ./
-            dockerfile: ./client/Dockerfile
-        volumes:
-            - ./client:/client
-        ports:
-            - 8080:8080
-        command: npm run serve
+
