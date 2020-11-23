@@ -62,6 +62,7 @@ class PlacesAPITests(APITestCase):
         self.client.credentials()
         # request to place without a token in the header
         response = self.client.post(self.url_place, self.data_place, format='json')
+        print("response", response)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         # request to ingredient without a token in the header
@@ -139,7 +140,7 @@ class PlacesAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         response = self.client.patch(self.url_dish_pk, self.data_dish, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        response = self.client.delete(self.url_dish_pk, format='json')
+        response = self.client.delete(self.url_dish_pk, self.data_dish, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
         # if owner
